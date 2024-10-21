@@ -1,0 +1,9 @@
+[versions]
+kotlin_core = "2.0.21"
+me_crypto = "2.0.21-1.0.0"
+
+[libraries]
+me-crypto = { module = "tk.mallumo:crypto", version.ref = "me_crypto" }
+
+[plugins]
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin_core" }
