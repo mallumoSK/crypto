@@ -1,6 +1,6 @@
 package tk.mallumo.crypto.internal
 
-internal object Base64 {
+object Base64 {
     private val TABLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
     private val TABLE_URL = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_="
     private val DECODE = TABLE.toDecodeArray()
@@ -122,20 +122,21 @@ internal object Base64 {
     private fun ByteArray.readU24BE(index: Int): Int =
         (readU8(index + 0) shl 16) or (readU8(index + 1) shl 8) or (readU8(index + 2) shl 0)
 }
+
 /** Converts a Base64 encoded string to a Byte Array with options to ignore spaces before decoding and use URL-safe encoding*/
-internal fun String.fromBase64IgnoreSpaces(url: Boolean = false): ByteArray = Base64.decodeIgnoringSpaces(this, url)
+fun String.fromBase64IgnoreSpaces(url: Boolean = false): ByteArray = Base64.decodeIgnoringSpaces(this, url)
 
 /**Decodes the current string from Base64 encoding and takes two optional parameters: ignore Spaces, a Boolean to ignore spaces during decoding (default is false), and url, a Boolean for URL-safe encoding (default is false.*/
-internal fun String.fromBase64(ignoreSpaces: Boolean = false, url: Boolean = false): ByteArray = Base64.decode(ignoreSpaces, this, url)
+fun String.fromBase64(ignoreSpaces: Boolean = false, url: Boolean = false): ByteArray = Base64.decode(ignoreSpaces, this, url)
 
 /**Encodes a byte array to a Base64 string with options for URL-safe encoding and padding. */
-internal fun ByteArray.toBase64(url: Boolean = false, doPadding: Boolean = false): String = Base64.encode(this, url, doPadding)
+fun ByteArray.toBase64(url: Boolean = false, doPadding: Boolean = false): String = Base64.encode(this, url, doPadding)
 
 /**Defines a property extension to easily obtain the Base64 encoded string representation of a byte array. It uses the Base64.encode(this) function to perform the encoding. */
-internal val ByteArray.base64: String get() = Base64.encode(this)
+val ByteArray.base64: String get() = Base64.encode(this)
 
 /**Defines a property extension to easily obtain the URL-safe Base64 encoded string representation of a byte array. It uses the Base64.encode(this, true) function, where the second parameter specifies that URL-safe encoding should be used.*/
-internal val ByteArray.base64Url: String get() = Base64.encode(this, true)
+val ByteArray.base64Url: String get() = Base64.encode(this, true)
 
 private fun String.toDecodeArray(): IntArray = IntArray(0x100).also {
     for (n in 0..255) it[n] = -1

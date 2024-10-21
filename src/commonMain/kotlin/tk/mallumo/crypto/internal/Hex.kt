@@ -1,12 +1,13 @@
 package tk.mallumo.crypto.internal
 
-internal object Hex {
+object Hex {
     fun isHexDigit(c: Char): Boolean = decodeChar(c) >= 0
     fun decodeHexDigit(c: Char): Int {
         val result = decodeChar(c)
         if (result < 0) error("Invalid hex digit '$c'")
         return result
     }
+
     fun decodeChar(c: Char): Int = when (c) {
         in '0'..'9' -> c - '0'
         in 'a'..'f' -> c - 'a' + 10
@@ -55,6 +56,7 @@ internal object Hex {
         append(encodeCharUpper((v.toInt() ushr 4) and 0xF))
         append(encodeCharUpper((v.toInt() ushr 0) and 0xF))
     }
+
     fun shex(v: Int): String = buildString(8) {
         for (n in 0 until 8) {
             val v = (v ushr ((7 - n) * 4)) and 0xF
@@ -62,7 +64,7 @@ internal object Hex {
         }
     }
 
-    inline private fun encode(src: ByteArray, dst: Appendable, digits: (Int) -> Char) {
+    private inline fun encode(src: ByteArray, dst: Appendable, digits: (Int) -> Char) {
         for (n in src.indices) {
             val v = src[n].toInt() and 0xFF
             dst.append(digits((v ushr 4) and 0xF))
@@ -70,37 +72,38 @@ internal object Hex {
         }
     }
 
-    inline private fun encodeBase(data: ByteArray, digits: (Int) -> Char): String = buildString(data.size * 2) {
+    private inline fun encodeBase(data: ByteArray, digits: (Int) -> Char): String = buildString(data.size * 2) {
         encode(data, this, digits)
     }
 }
 
 internal fun Appendable.appendHexByte(value: Int) = Hex.appendHexByte(this, value)
 
-internal fun String.fromHex(): ByteArray = Hex.decode(this)
-internal val ByteArray.hexLower: String get() = Hex.encodeLower(this)
-internal val ByteArray.hexUpper: String get() = Hex.encodeUpper(this)
+fun String.fromHex(): ByteArray = Hex.decode(this)
+val ByteArray.hexLower: String get() = Hex.encodeLower(this)
+val ByteArray.hexUpper: String get() = Hex.encodeUpper(this)
 
-internal fun ByteArray.toHexStringLower(): String = hexLower
-internal fun ByteArray.toHexStringUpper(): String = hexUpper
+fun ByteArray.toHexStringLower(): String = hexLower
+fun ByteArray.toHexStringUpper(): String = hexUpper
 
-internal fun Char.isHexDigit() = Hex.isHexDigit(this)
+fun Char.isHexDigit() = Hex.isHexDigit(this)
 
-internal val List<String>.unhexIgnoreSpaces get() = Hex.decodeIgnoreSpaces(joinToString(""))
-internal val String.unhexIgnoreSpaces: ByteArray get() = Hex.decodeIgnoreSpaces(this)
-internal val String.unhex get() = Hex.decode(this)
-internal val ByteArray.hex get() = Hex.encodeLower(this)
+val List<String>.unhexIgnoreSpaces get() = Hex.decodeIgnoreSpaces(joinToString(""))
+val String.unhexIgnoreSpaces: ByteArray get() = Hex.decodeIgnoreSpaces(this)
+val String.unhex get() = Hex.decode(this)
+val ByteArray.hex get() = Hex.encodeLower(this)
 
 /**
  * Returns this number as a hexadecimal string in the format:
  * 0xWWXXYYZZ
  */
-internal val Int.hex: String get() = "0x$shex"
+val Int.hex: String get() = "0x$shex"
+
 /**
  * Returns this number as a hexadecimal string in the format:
  * WWXXYYZZ
  */
-internal val Int.shex: String get() = Hex.shex(this)
+val Int.shex: String get() = Hex.shex(this)
 
-internal val Byte.hex: String get() = "0x$shex"
-internal val Byte.shex: String get() = Hex.shex(this)
+val Byte.hex: String get() = "0x$shex"
+val Byte.shex: String get() = Hex.shex(this)
