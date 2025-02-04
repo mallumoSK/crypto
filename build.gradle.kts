@@ -24,6 +24,11 @@ kotlin {
     wasmJs{
         browser()
     }
+    sourceSets{
+        wasmJsMain.dependencies {
+            implementation(libs.kotlin.browser)
+        }
+    }
 }
 
 publishing {
