@@ -1,7 +1,7 @@
 [versions]
-kotlin_core = "2.1.10"
-me_crypto = "2.1.10-1.0.0"
-kotlin_browser = "0.3"
+kotlin_core = "2.2.10"
+me_crypto = "2.2.10-1.1.0"
+kotlin_browser = "0.5.0"
 
 [libraries]
 me-crypto = { module = "tk.mallumo:crypto", version.ref = "me_crypto" }

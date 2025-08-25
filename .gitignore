@@ -44,3 +44,5 @@ bin/
 
 /.kotlin/metadata/
 /local.properties
+/.idea/artifacts/
+/.idea/dbnavigator.xml
